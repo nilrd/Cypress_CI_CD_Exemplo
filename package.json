@@ -1,0 +1,17 @@
+{
+  "name": "cypress_ci_cd_exemplo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "cypress:open": "cypress open",
+  "test": "cypress run"
+},
+
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^15.2.0"
+  }
+}
