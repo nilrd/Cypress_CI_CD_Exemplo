@@ -1,4 +1,4 @@
-name: Cypress CI
+name: Cypress CI/CD
 
 on:
   push:
@@ -15,29 +15,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Configurar Node.js compatível com Cypress 15.2.0
+      # 2️⃣ Configurar Node.js compatível com Cypress 15.x
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.19.0' # Node compatível com Cypress 15.x
+          node-version: '18.19.0' # compatível com Cypress 15.2.0
 
       # 3️⃣ Instalar dependências do projeto
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Limpar cache antigo do Cypress
+      # 4️⃣ Limpar completamente o cache do Cypress (evita download corrompido)
       - name: Clear Cypress cache
-        run: npx cypress cache clear
+        run: rm -rf ~/.cache/Cypress
 
-      # 5️⃣ Instalar o binário do Cypress (garante que ele existe no runner)
+      # 5️⃣ Instalar binário do Cypress com força
       - name: Install Cypress binary
-        run: npx cypress install
+        run: npx cypress install --force
 
-      # 6️⃣ Rodar os testes em modo headless
+      # 6️⃣ Rodar testes headless no Chrome
       - name: Run Cypress tests
         run: npx cypress run --headless --browser chrome
 
-      # 7️⃣ Fazer upload de vídeos e screenshots apenas se houver falha
+      # 7️⃣ Upload de vídeos/screenshots caso falhem testes
       - name: Upload artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
