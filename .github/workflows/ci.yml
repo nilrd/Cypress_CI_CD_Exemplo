@@ -11,25 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Fazer checkout do código
+      # 1️⃣ Checkout do código
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Configurar Node.js compatível com Cypress 15.x
+      # 2️⃣ Node 22 para compatibilidade total
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.19.0' # compatível com Cypress 15.2.0
+          node-version: '22'  # 🔹 Atualizado
 
-      # 3️⃣ Instalar dependências do projeto
+      # 3️⃣ Instalar dependências
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Limpar completamente o cache do Cypress (evita download corrompido)
+      # 4️⃣ Limpar cache do Cypress
       - name: Clear Cypress cache
         run: rm -rf ~/.cache/Cypress
 
-      # 5️⃣ Instalar binário do Cypress com força
+      # 5️⃣ Instalar binário do Cypress
       - name: Install Cypress binary
         run: npx cypress install --force
 
@@ -37,7 +37,7 @@ jobs:
       - name: Run Cypress tests
         run: npx cypress run --headless --browser chrome
 
-      # 7️⃣ Upload de vídeos/screenshots caso falhem testes
+      # 7️⃣ Upload de artefatos em caso de falha
       - name: Upload artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
