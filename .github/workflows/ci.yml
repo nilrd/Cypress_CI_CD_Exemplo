@@ -11,26 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Fazer checkout do código
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2️⃣ Configurar Node.js compatível com Cypress 15.2.0
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.20.0' # ou 18.19.0
+          node-version: '18.19.0' # Node compatível com Cypress 15.x
 
+      # 3️⃣ Instalar dependências do projeto
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Limpar cache antigo do Cypress
       - name: Clear Cypress cache
         run: npx cypress cache clear
 
+      # 5️⃣ Instalar o binário do Cypress (garante que ele existe no runner)
       - name: Install Cypress binary
         run: npx cypress install
 
+      # 6️⃣ Rodar os testes em modo headless
       - name: Run Cypress tests
         run: npx cypress run --headless --browser chrome
 
+      # 7️⃣ Fazer upload de vídeos e screenshots apenas se houver falha
       - name: Upload artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
